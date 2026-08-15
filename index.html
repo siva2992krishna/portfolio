@@ -1,645 +1,1110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Resume | Siva Krishna L | Senior Python Developer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0a192f;
-            color: #ccd6f6;
-        }
-        #hero-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-        .glass-effect {
-            background: rgba(10, 25, 47, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .animated-gradient-text {
-            background: linear-gradient(90deg, #64ffda, #ffab76, #a885ff);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-animation 5s ease infinite;
-        }
-        @keyframes gradient-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .case-study-card, .experience-card, .competency-card, .education-card {
-            transition: all 0.3s ease-in-out;
-        }
-        .case-study-card:hover, .experience-card:hover, .competency-card:hover, .education-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            border-left-color: #64ffda;
-        }
-        .section-title {
-            position: relative;
-            padding-bottom: 1rem;
-            margin-bottom: 2rem;
-        }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 80px;
-            height: 4px;
-            background: #64ffda;
-            border-radius: 2px;
-        }
-        /* AI Chatbot Styles */
-        #ai-chat-widget {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            z-index: 1000;
-        }
-        #chat-bubble {
-            width: 60px;
-            height: 60px;
-            background-color: #64ffda;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(100, 255, 218, 0.4);
-            transition: all 0.3s ease;
-        }
-        #chat-bubble:hover {
-            transform: scale(1.1);
-        }
-        #chat-modal {
-            position: fixed;
-            bottom: 6rem;
-            right: 2rem;
-            width: 350px;
-            height: 500px;
-            transition: all 0.3s ease-in-out;
-        }
-        .chat-message {
-            max-width: 80%;
-        }
-        .user-message {
-            background-color: #64ffda;
-            color: #0a192f;
-            align-self: flex-end;
-        }
-        .ai-message {
-            background-color: #112240;
-            color: #ccd6f6;
-            align-self: flex-start;
-        }
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #64ffda;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        /* Hero Animations */
-        @keyframes hero-fade-in {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .hero-element {
-            opacity: 0;
-            animation: hero-fade-in 0.8s ease-out forwards;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Siva Krishna Lingutla | Senior Python & AI Engineer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --teal: #64ffda;
+      --navy: #0a192f;
+      --navy-light: #112240;
+      --navy-mid: #0d1b2e;
+      --slate: #8892b0;
+      --slate-light: #a8b2d8;
+      --white: #ccd6f6;
+      --orange: #ffab76;
+      --purple: #a885ff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── Scrollbar ──────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--navy); }
+    ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 3px; }
+
+    /* ── Noise texture overlay ──────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    /* ── Canvas ──────────────────────────────────────── */
+    #hero-canvas {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
+    }
+
+    /* ── Gradient text ───────────────────────────────── */
+    .gradient-text {
+      background: linear-gradient(135deg, var(--teal) 0%, var(--orange) 50%, var(--purple) 100%);
+      background-size: 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 4s ease infinite;
+    }
+    @keyframes shimmer {
+      0%,100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* ── Nav ─────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: all 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(10,25,47,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(100,255,218,0.1);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    }
+    .nav-logo {
+      font-family: 'Fira Code', monospace;
+      color: var(--teal);
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--slate-light);
+      text-decoration: none;
+      font-size: .85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 2px; background: var(--teal);
+      transform: scaleX(0); transition: transform 0.2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* ── Sections ────────────────────────────────────── */
+    section { position: relative; z-index: 1; }
+
+    .section-label {
+      font-family: 'Fira Code', monospace;
+      color: var(--teal);
+      font-size: .85rem;
+      letter-spacing: 2px;
+      margin-bottom: .5rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: .5rem;
+    }
+    .section-line {
+      width: 60px; height: 3px;
+      background: linear-gradient(90deg, var(--teal), transparent);
+      border-radius: 2px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── Glass card ──────────────────────────────────── */
+    .glass {
+      background: rgba(17,34,64,0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(100,255,218,0.1);
+      border-radius: 16px;
+      transition: all 0.3s ease;
+    }
+    .glass:hover {
+      border-color: rgba(100,255,218,0.3);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 40px rgba(100,255,218,0.05);
+    }
+
+    /* ── Hero ────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding: 0 clamp(2rem, 8vw, 10rem);
+      position: relative; overflow: hidden;
+    }
+    .hero-greeting {
+      font-family: 'Fira Code', monospace;
+      color: var(--teal);
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.3s forwards;
+    }
+    .hero-name {
+      font-size: clamp(2.5rem, 8vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.5s forwards;
+    }
+    .hero-sub {
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      color: var(--slate);
+      font-weight: 300;
+      margin-top: .5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.7s forwards;
+    }
+    .hero-desc {
+      max-width: 580px;
+      color: var(--slate);
+      margin-top: 1.5rem;
+      line-height: 1.7;
+      font-size: .95rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.9s forwards;
+    }
+    .hero-ctas {
+      display: flex; gap: 1rem; margin-top: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 1.1s forwards;
+    }
+    .btn-primary {
+      padding: .75rem 1.75rem;
+      border: 1px solid var(--teal);
+      color: var(--teal);
+      border-radius: 6px;
+      font-size: .85rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      background: transparent;
+    }
+    .btn-primary:hover {
+      background: rgba(100,255,218,0.1);
+      box-shadow: 0 0 20px rgba(100,255,218,0.2);
+    }
+    .btn-secondary {
+      padding: .75rem 1.75rem;
+      background: var(--teal);
+      color: var(--navy);
+      border-radius: 6px;
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover {
+      background: #4de0c0;
+      box-shadow: 0 0 30px rgba(100,255,218,0.4);
+      transform: translateY(-2px);
+    }
+
+    /* ── Stats bar ───────────────────────────────────── */
+    .stats-bar {
+      display: flex; gap: 3rem; margin-top: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 1.3s forwards;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-size: 2rem; font-weight: 900;
+      color: var(--teal);
+    }
+    .stat-label { font-size: .75rem; color: var(--slate); letter-spacing: 1px; }
+
+    /* ── Skills grid ─────────────────────────────────── */
+    .skill-chip {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .35rem .75rem;
+      background: rgba(100,255,218,0.06);
+      border: 1px solid rgba(100,255,218,0.15);
+      border-radius: 20px;
+      font-size: .78rem;
+      color: var(--teal);
+      font-family: 'Fira Code', monospace;
+      transition: all 0.2s;
+    }
+    .skill-chip:hover {
+      background: rgba(100,255,218,0.12);
+      border-color: var(--teal);
+      transform: translateY(-2px);
+    }
+    .skill-chip.ai {
+      color: var(--orange);
+      border-color: rgba(255,171,118,0.15);
+      background: rgba(255,171,118,0.06);
+    }
+    .skill-chip.ai:hover { border-color: var(--orange); background: rgba(255,171,118,0.12); }
+    .skill-chip.cloud {
+      color: var(--purple);
+      border-color: rgba(168,133,255,0.15);
+      background: rgba(168,133,255,0.06);
+    }
+    .skill-chip.cloud:hover { border-color: var(--purple); background: rgba(168,133,255,0.12); }
+
+    /* ── AI Projects section ─────────────────────────── */
+    .ai-project-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid rgba(100,255,218,0.1);
+      background: linear-gradient(135deg, rgba(17,34,64,0.8) 0%, rgba(10,25,47,0.9) 100%);
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+    .ai-project-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(100,255,218,0.05) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .ai-project-card:hover { border-color: rgba(100,255,218,0.4); transform: translateY(-8px); box-shadow: 0 24px 48px rgba(0,0,0,0.4), 0 0 60px rgba(100,255,218,0.08); }
+    .ai-project-card:hover::before { opacity: 1; }
+
+    .project-tag {
+      display: inline-block;
+      padding: .2rem .6rem;
+      border-radius: 4px;
+      font-size: .7rem;
+      font-family: 'Fira Code', monospace;
+      font-weight: 500;
+      letter-spacing: .5px;
+    }
+    .tag-rag { background: rgba(100,255,218,0.1); color: var(--teal); }
+    .tag-llm { background: rgba(255,171,118,0.1); color: var(--orange); }
+    .tag-agent { background: rgba(168,133,255,0.1); color: var(--purple); }
+    .tag-python { background: rgba(59,130,246,0.1); color: #60a5fa; }
+    .tag-fastapi { background: rgba(16,185,129,0.1); color: #34d399; }
+    .tag-vector { background: rgba(239,68,68,0.1); color: #f87171; }
+
+    .project-icon {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 1.2rem;
+    }
+
+    /* ── Architecture diagram ────────────────────────── */
+    .arch-diagram {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(100,255,218,0.1);
+      border-radius: 10px;
+      padding: 1rem;
+      font-family: 'Fira Code', monospace;
+      font-size: .7rem;
+      color: var(--slate-light);
+      line-height: 1.6;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* ── Experience timeline ─────────────────────────── */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--teal), transparent);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute; left: -2.4rem; top: .4rem;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 12px var(--teal);
+    }
+    .timeline-date {
+      font-family: 'Fira Code', monospace;
+      color: var(--teal);
+      font-size: .8rem;
+      margin-bottom: .3rem;
+    }
+    .timeline-role {
+      font-size: 1.1rem; font-weight: 700; color: var(--white);
+    }
+    .timeline-company {
+      color: var(--orange); font-size: .9rem; margin-bottom: .8rem;
+    }
+    .timeline-bullets { list-style: none; }
+    .timeline-bullets li {
+      position: relative;
+      padding-left: 1.2rem;
+      color: var(--slate);
+      font-size: .875rem;
+      line-height: 1.6;
+      margin-bottom: .4rem;
+    }
+    .timeline-bullets li::before {
+      content: '▸';
+      position: absolute; left: 0;
+      color: var(--teal);
+    }
+
+    /* ── Metric pill ─────────────────────────────────── */
+    .metric {
+      display: inline-block;
+      background: rgba(100,255,218,0.08);
+      border: 1px solid rgba(100,255,218,0.15);
+      color: var(--teal);
+      padding: .15rem .5rem;
+      border-radius: 4px;
+      font-size: .78rem;
+      font-family: 'Fira Code', monospace;
+    }
+
+    /* ── Footer ──────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 3rem;
+      color: var(--slate);
+      font-size: .8rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    footer a { color: var(--teal); text-decoration: none; }
+
+    /* ── Animations ──────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── AI Chat widget ──────────────────────────────── */
+    #chat-widget {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 200;
+    }
+    #chat-bubble {
+      width: 58px; height: 58px;
+      background: linear-gradient(135deg, var(--teal), #2dd4bf);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(100,255,218,0.4);
+      font-size: 1.4rem;
+      transition: all 0.3s;
+    }
+    #chat-bubble:hover { transform: scale(1.1); box-shadow: 0 6px 30px rgba(100,255,218,0.6); }
+    #chat-modal {
+      position: absolute; bottom: 70px; right: 0;
+      width: 340px; height: 480px;
+      background: rgba(10,25,47,0.98);
+      border: 1px solid rgba(100,255,218,0.2);
+      border-radius: 16px;
+      display: flex; flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      transform: scale(0); transform-origin: bottom right;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    #chat-modal.open { transform: scale(1); }
+    #chat-header {
+      padding: 1rem 1.25rem;
+      background: rgba(100,255,218,0.05);
+      border-bottom: 1px solid rgba(100,255,218,0.1);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    #chat-messages {
+      flex: 1; overflow-y: auto; padding: 1rem;
+      display: flex; flex-direction: column; gap: .75rem;
+    }
+    .chat-msg {
+      padding: .6rem .9rem;
+      border-radius: 10px;
+      font-size: .82rem;
+      line-height: 1.5;
+      max-width: 85%;
+    }
+    .chat-msg.bot {
+      background: rgba(100,255,218,0.08);
+      border: 1px solid rgba(100,255,218,0.1);
+      align-self: flex-start;
+    }
+    .chat-msg.user {
+      background: rgba(17,34,64,0.8);
+      border: 1px solid rgba(168,133,255,0.15);
+      align-self: flex-end;
+    }
+    #chat-input-row {
+      padding: .75rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; gap: .5rem;
+    }
+    #chat-input {
+      flex: 1;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(100,255,218,0.15);
+      border-radius: 8px;
+      padding: .5rem .75rem;
+      color: var(--white);
+      font-size: .82rem;
+      outline: none;
+    }
+    #chat-input:focus { border-color: var(--teal); }
+    #chat-send {
+      background: var(--teal);
+      color: var(--navy);
+      border: none; border-radius: 8px;
+      padding: .5rem .9rem;
+      font-weight: 700; font-size: .8rem;
+      cursor: pointer; transition: background 0.2s;
+    }
+    #chat-send:hover { background: #4de0c0; }
+
+    /* ── Glow divider ────────────────────────────────── */
+    .glow-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(100,255,218,0.3), transparent);
+      margin: 0 2rem;
+    }
+
+    /* ── Mobile ──────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .stats-bar { gap: 1.5rem; }
+      #hero { padding: 0 1.5rem; }
+    }
+  </style>
 </head>
-<body class="leading-relaxed">
 
-    <!-- Hero Section -->
-    <section id="hero" class="min-h-screen flex flex-col justify-center items-start px-8 md:px-24 relative overflow-hidden">
-        <canvas id="hero-canvas"></canvas>
-        <div class="relative z-10">
-            <h1 class="hero-element text-lg md:text-xl text-teal-300 mb-4" style="animation-delay: 100ms;">Hi, my name is</h1>
-            <h2 class="hero-element text-5xl md:text-7xl font-black text-slate-200" style="animation-delay: 200ms;">Siva Krishna L.</h2>
-            <h3 class="hero-element text-4xl md:text-6xl font-black text-slate-400 mt-2" style="animation-delay: 300ms;">I build things for the web.</h3>
-            <p class="hero-element mt-6 max-w-xl text-slate-400" style="animation-delay: 400ms;">
-                I'm a Senior Python Developer specializing in building (and occasionally designing) exceptional, high-performance backend systems. Currently, I'm focused on creating scalable, cloud-native solutions at AAA - AutoClubGroup.
-            </p>
-            <a href="#about" class="hero-element inline-block mt-8 px-8 py-4 border border-teal-300 text-teal-300 rounded-md hover:bg-teal-300 hover:bg-opacity-10 transition-all duration-300" style="animation-delay: 500ms;">
-                Explore My Work
-            </a>
-        </div>
-    </section>
+<body>
 
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- About Section -->
-        <section id="about" class="py-24">
-            <h2 class="section-title text-3xl font-bold text-slate-200">About Me</h2>
-            <div class="grid md:grid-cols-5 gap-12 items-center">
-                <div class="md:col-span-3 text-slate-400 space-y-4">
-                    <p>
-                        Hello! I'm Siva, a passionate developer with a knack for turning complex problems into elegant, efficient software. My journey into the world of code began years ago and has since evolved into a career dedicated to engineering robust and scalable backend systems.
-                    </p>
-                    <p>
-                        With over 5+ years of professional experience, I've had the privilege of working on challenging projects for major clients like <strong class="text-teal-300">AAA - AutoClubGroup</strong> and <strong class="text-teal-300">Directline Group</strong>. My expertise lies in Python, cloud architecture (GCP & AWS), and building high-performance APIs that drive business value.
-                    </p>
-                    <p>
-                        When I'm not architecting microservices or optimizing databases, you can find me exploring the latest tech trends, contributing to open-source projects, or diving into a good sci-fi novel.
-                    </p>
-                </div>
-                <div class="md:col-span-2 flex justify-center">
-                    <div class="relative group">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-teal-400 to-blue-500 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
-                        <img src="https://images.unsplash.com/photo-1550063873-ab792950096b?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Abstract technology graphic" class="relative rounded-lg w-full h-auto shadow-xl">
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- ── Navigation ──────────────────────────────────────────────── -->
+<nav id="navbar">
+  <div class="nav-logo">&lt;SK /&gt;</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#ai-projects">AI Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-        <!-- Core Competencies Section -->
-        <section id="competencies" class="py-24">
-            <h2 class="section-title text-3xl font-bold text-slate-200">Core Competencies</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="competency-card glass-effect p-6 rounded-lg border-l-4 border-transparent text-center">
-                    <i class="fas fa-cogs text-4xl text-teal-300 mb-4"></i>
-                    <h3 class="text-xl font-bold text-slate-200 mb-2">Backend Architecture</h3>
-                    <p class="text-slate-400 text-sm">Designing scalable, resilient microservice ecosystems and monolithic systems.</p>
-                </div>
-                <div class="competency-card glass-effect p-6 rounded-lg border-l-4 border-transparent text-center">
-                    <i class="fas fa-cloud text-4xl text-teal-300 mb-4"></i>
-                    <h3 class="text-xl font-bold text-slate-200 mb-2">Cloud & DevOps</h3>
-                    <p class="text-slate-400 text-sm">Leveraging GCP and AWS for serverless deployments, containerization, and CI/CD automation.</p>
-                </div>
-                <div class="competency-card glass-effect p-6 rounded-lg border-l-4 border-transparent text-center">
-                    <i class="fas fa-code-branch text-4xl text-teal-300 mb-4"></i>
-                    <h3 class="text-xl font-bold text-slate-200 mb-2">API Development</h3>
-                    <p class="text-slate-400 text-sm">Building high-performance, secure RESTful APIs with modern frameworks like FastAPI and Django.</p>
-                </div>
-                <div class="competency-card glass-effect p-6 rounded-lg border-l-4 border-transparent text-center">
-                    <i class="fas fa-database text-4xl text-teal-300 mb-4"></i>
-                    <h3 class="text-xl font-bold text-slate-200 mb-2">Data Engineering</h3>
-                    <p class="text-slate-400 text-sm">Optimizing databases, managing data pipelines, and ensuring data integrity at scale.</p>
-                </div>
-            </div>
-        </section>
+<!-- ── Hero ────────────────────────────────────────────────────── -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
 
-        <!-- Experience Section -->
-        <section id="experience" class="py-24">
-            <h2 class="section-title text-3xl font-bold text-slate-200">Where I've Worked</h2>
-            <div class="space-y-12">
-                <div class="experience-card glass-effect p-6 rounded-lg border-l-4 border-transparent">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="text-xl font-bold text-teal-300">Senior Python Developer</h3>
-                            <p class="text-slate-400">Client: AAA - AutoClubGroup</p>
-                        </div>
-                        <p class="text-sm text-slate-500">June 2024 – Present</p>
-                    </div>
-                    <p class="text-slate-400 mb-4">Leading the migration of legacy Java APIs to a modern Python/FastAPI stack on GCP, re-architecting core services for scalability and performance.</p>
-                    <ul class="list-disc list-inside text-slate-400 text-sm space-y-2">
-                        <li>Achieved a <strong class="text-white">40% improvement</strong> in API response times.</li>
-                        <li>Increased transaction throughput by <strong class="text-white">150%</strong>.</li>
-                        <li>Accelerated deployment cycles by <strong class="text-white">60%</strong> with new CI/CD pipelines.</li>
-                    </ul>
-                </div>
-                <div class="experience-card glass-effect p-6 rounded-lg border-l-4 border-transparent">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="text-xl font-bold text-teal-300">Python Developer</h3>
-                            <p class="text-slate-400">Employer: Cognizant (Client: Directline Group)</p>
-                        </div>
-                        <p class="text-sm text-slate-500">Aug 2020 – Jul 2022</p>
-                    </div>
-                    <p class="text-slate-400 mb-4">Enhanced and maintained core policy management systems on AWS, developing new features and optimizing performance for a major insurance provider.</p>
-                     <ul class="list-disc list-inside text-slate-400 text-sm space-y-2">
-                        <li>Improved policy issuance efficiency by <strong class="text-white">25%</strong>.</li>
-                        <li>Reduced actuarial report generation time by <strong class="text-white">30%</strong>.</li>
-                        <li>Achieved over <strong class="text-white">90% test coverage</strong> for new features.</li>
-                    </ul>
-                </div>
-                <div class="experience-card glass-effect p-6 rounded-lg border-l-4 border-transparent">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="text-xl font-bold text-teal-300">Junior to Mid-Level Python Developer</h3>
-                            <p class="text-slate-400">Employer: Cognizant (Client: Directline Group)</p>
-                        </div>
-                        <p class="text-sm text-slate-500">Aug 2018 – Jul 2020</p>
-                    </div>
-                    <p class="text-slate-400 mb-4">Developed and enhanced internal tools and data integration systems, building a strong foundation in creating robust, data-driven applications.</p>
-                     <ul class="list-disc list-inside text-slate-400 text-sm space-y-2">
-                        <li>Engineered Flask-based REST APIs that automated internal processes, saving an estimated <strong class="text-white">25 hours per week</strong> in manual data entry.</li>
-                        <li>Improved data synchronization with the Guidewire application by <strong class="text-white">40%</strong>.</li>
-                        <li>Championed unit testing, leading to a <strong class="text-white">15% reduction</strong> in production bugs.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Technical Case Studies Section -->
-        <section id="case-studies" class="py-24">
-            <h2 class="section-title text-3xl font-bold text-slate-200">Technical Case Studies</h2>
-            <div class="space-y-12">
-                <div class="case-study-card glass-effect rounded-lg overflow-hidden border-l-4 border-transparent">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-slate-200 mb-2">Case Study 1: Cloud-Native Modernization at AAA</h3>
-                        <div class="grid md:grid-cols-3 gap-6 mt-4">
-                            <div>
-                                <h4 class="font-bold text-teal-300 mb-2">Problem</h4>
-                                <p class="text-slate-400 text-sm">Legacy Java APIs were slow, costly to maintain, and hindered rapid feature development, creating a bottleneck for critical insurance services.</p>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-teal-300 mb-2">Solution</h4>
-                                <p class="text-slate-400 text-sm">Architected and led the migration to a Python/FastAPI microservices ecosystem on GCP, utilizing Cloud Run for serverless deployment and Cloud SQL for managed databases.</p>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-teal-300 mb-2">Impact</h4>
-                                <ul class="list-disc list-inside text-slate-400 text-sm">
-                                    <li>40% faster API response times</li>
-                                    <li>150% increase in transaction throughput</li>
-                                    <li>60% faster deployment cycles</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="case-study-card glass-effect rounded-lg overflow-hidden border-l-4 border-transparent">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-slate-200 mb-2">Case Study 2: Data Integration & Automation at Directline</h3>
-                        <div class="grid md:grid-cols-3 gap-6 mt-4">
-                            <div>
-                                <h4 class="font-bold text-teal-300 mb-2">Problem</h4>
-                                <p class="text-slate-400 text-sm">Internal teams relied on manual, time-consuming processes for data entry and synchronization between modern Python applications and the legacy Guidewire system.</p>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-teal-300 mb-2">Solution</h4>
-                                <p class="text-slate-400 text-sm">Developed a real-time, asynchronous data synchronization service using Celery and Redis, creating robust Flask APIs to bridge the gap between systems and automate workflows.</p>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-teal-300 mb-2">Impact</h4>
-                                <ul class="list-disc list-inside text-slate-400 text-sm">
-                                    <li>Automated 25+ hours of manual work weekly</li>
-                                    <li>40% improvement in data consistency</li>
-                                    <li>15% reduction in related production errors</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <p class="hero-greeting">// Hello, World! I'm</p>
+  <h1 class="hero-name">
+    <span class="gradient-text">Siva Krishna</span><br>Lingutla
+  </h1>
+  <p class="hero-sub">Senior Python Engineer · AI / LLM Builder</p>
+  <p class="hero-desc">
+    6+ years building <strong style="color:var(--teal)">high-scale backend APIs</strong> and
+    <strong style="color:var(--orange)">AI-powered systems</strong> in production.
+    Currently architecting LLM applications, RAG pipelines, and autonomous agents at
+    <strong style="color:var(--white)">AAA Insurance</strong>.
+  </p>
 
-        <!-- Education & Certifications Section -->
-        <section id="education" class="py-24">
-            <h2 class="section-title text-3xl font-bold text-slate-200">Education & Certifications</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="education-card glass-effect p-6 rounded-lg border-l-4 border-transparent">
-                    <div class="flex items-center mb-2">
-                        <i class="fas fa-graduation-cap text-2xl text-teal-300 mr-4"></i>
-                        <div>
-                            <h3 class="text-xl font-bold text-slate-200">Master of Science in Information Systems</h3>
-                            <p class="text-slate-400">Central Michigan University</p>
-                        </div>
-                    </div>
-                    <p class="text-sm text-slate-500 mt-2">Graduated: May 2024</p>
-                </div>
-                <div class="education-card glass-effect p-6 rounded-lg border-l-4 border-transparent">
-                    <div class="flex items-center mb-2">
-                        <i class="fas fa-award text-2xl text-teal-300 mr-4"></i>
-                        <div>
-                            <h3 class="text-xl font-bold text-slate-200">AWS Certified Developer – Associate</h3>
-                            <p class="text-slate-400">Amazon Web Services</p>
-                        </div>
-                    </div>
-                    <p class="text-sm text-slate-500 mt-2">Issued: July 2025</p>
-                </div>
-            </div>
-        </section>
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-num">6+</div><div class="stat-label">Years Exp.</div></div>
+    <div class="stat"><div class="stat-num">100K+</div><div class="stat-label">Req/sec</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">AI Projects</div></div>
+    <div class="stat"><div class="stat-num">3.84</div><div class="stat-label">MS GPA</div></div>
+  </div>
 
+  <div class="hero-ctas">
+    <a href="#ai-projects" class="btn-secondary">View AI Projects</a>
+    <a href="#experience" class="btn-primary">Experience</a>
+    <a href="https://linkedin.com/in/siva-lingutla" target="_blank" class="btn-primary">
+      <i class="fab fa-linkedin" style="margin-right:.4rem"></i>LinkedIn
+    </a>
+    <a href="https://github.com/siva2992krishna" target="_blank" class="btn-primary">
+      <i class="fab fa-github" style="margin-right:.4rem"></i>GitHub
+    </a>
+  </div>
+</section>
+
+<div class="glow-divider"></div>
+
+<!-- ── About ────────────────────────────────────────────────────── -->
+<section id="about" class="py-28 px-8 md:px-24 max-w-6xl mx-auto fade-in">
+  <p class="section-label">// 01. about_me</p>
+  <h2 class="section-title">Who I Am</h2>
+  <div class="section-line"></div>
+
+  <div class="grid md:grid-cols-2 gap-12 items-center">
+    <div>
+      <p style="color:var(--slate);line-height:1.8;margin-bottom:1rem">
+        I'm a backend software engineer who loves building things that <strong style="color:var(--teal)">handle real load</strong>
+        and <strong style="color:var(--orange)">make real decisions</strong>. My core stack is Python — FastAPI, async IO,
+        Pydantic — running on AWS and GCP with Postgres and event-driven queues.
+      </p>
+      <p style="color:var(--slate);line-height:1.8;margin-bottom:1rem">
+        Over the last year I've been going deep on <strong style="color:var(--purple)">LLM engineering</strong>:
+        building RAG pipelines that actually work at scale, autonomous agents with tool use,
+        and domain-tuned assistants for insurance workflows. I believe the best AI systems are
+        built on the same principles as the best backend systems — observability, fault tolerance,
+        and clean interfaces.
+      </p>
+      <p style="color:var(--slate);line-height:1.8">
+        MS in Business Data Analytics from Central Michigan University (GPA 3.84).
+        Previously at Cognizant, building event-driven systems for Direct Line Group (UK's
+        largest insurer).
+      </p>
+    </div>
+    <div class="glass p-8 text-center">
+      <div style="font-family:'Fira Code',monospace;color:var(--teal);font-size:.85rem;text-align:left;line-height:2">
+        <span style="color:var(--slate)">const</span> siva = {<br>
+        &nbsp;&nbsp;location: <span style="color:var(--orange)">"Michigan, USA"</span>,<br>
+        &nbsp;&nbsp;role: <span style="color:var(--orange)">"Senior Python Engineer"</span>,<br>
+        &nbsp;&nbsp;focus: [<span style="color:var(--orange)">"LLMs"</span>, <span style="color:var(--orange)">"RAG"</span>, <span style="color:var(--orange)">"Agents"</span>],<br>
+        &nbsp;&nbsp;availableFor: <span style="color:var(--orange)">"new opportunities"</span>,<br>
+        &nbsp;&nbsp;email: <span style="color:var(--orange)">"lingutlasiva@gmail.com"</span>,<br>
+        }
+      </div>
+      <div style="margin-top:1.5rem;display:flex;justify-content:center;gap:1rem">
+        <a href="mailto:lingutlasiva@gmail.com" class="btn-secondary" style="font-size:.8rem;padding:.5rem 1rem">
+          <i class="fas fa-envelope" style="margin-right:.4rem"></i>Email Me
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Skills ────────────────────────────────────────────────────── -->
+<section id="skills" class="py-20 px-8 md:px-24 max-w-6xl mx-auto fade-in">
+  <p class="section-label">// 02. tech_stack</p>
+  <h2 class="section-title">Skills & Technologies</h2>
+  <div class="section-line"></div>
+
+  <div class="grid md:grid-cols-3 gap-8">
+
+    <!-- AI / LLM -->
+    <div class="glass p-6">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,171,118,0.1);display:flex;align-items:center;justify-content:center;font-size:1.2rem">🧠</div>
+        <div style="font-weight:600;color:var(--orange)">AI / LLM</div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem">
+        <span class="skill-chip ai">LangChain</span>
+        <span class="skill-chip ai">OpenAI API</span>
+        <span class="skill-chip ai">RAG Pipelines</span>
+        <span class="skill-chip ai">ChromaDB</span>
+        <span class="skill-chip ai">Embeddings</span>
+        <span class="skill-chip ai">Prompt Eng.</span>
+        <span class="skill-chip ai">LangGraph</span>
+        <span class="skill-chip ai">Anthropic</span>
+        <span class="skill-chip ai">HuggingFace</span>
+        <span class="skill-chip ai">ReAct Agents</span>
+      </div>
     </div>
 
-    <!-- AI Chat Widget -->
-    <div id="ai-chat-widget">
-        <div id="chat-bubble">
-            <i class="fas fa-robot text-2xl text-slate-900"></i>
-        </div>
-        <div id="chat-modal" class="hidden glass-effect rounded-lg flex flex-col overflow-hidden">
-            <div class="p-4 bg-slate-800 flex justify-between items-center">
-                <h3 class="font-bold text-slate-200">Ask My AI Assistant</h3>
-                <button id="close-chat" class="text-slate-400 hover:text-teal-300">&times;</button>
-            </div>
-            <div id="chat-body" class="flex-grow p-4 overflow-y-auto flex flex-col space-y-4">
-                <!-- Chat messages will be appended here -->
-            </div>
-            <div id="chat-input-container" class="p-4 border-t border-slate-700">
-                <div class="flex space-x-2">
-                    <input type="text" id="chat-input" class="flex-grow bg-slate-800 border border-slate-600 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300" placeholder="Ask me anything...">
-                    <button id="send-chat-btn" class="bg-teal-400 text-slate-900 font-bold px-4 py-2 rounded-md hover:bg-teal-300 transition-colors">Send</button>
-                </div>
-            </div>
-        </div>
+    <!-- Backend -->
+    <div class="glass p-6">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(100,255,218,0.1);display:flex;align-items:center;justify-content:center;font-size:1.2rem">⚙️</div>
+        <div style="font-weight:600;color:var(--teal)">Backend</div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem">
+        <span class="skill-chip">Python</span>
+        <span class="skill-chip">FastAPI</span>
+        <span class="skill-chip">Flask</span>
+        <span class="skill-chip">Async IO</span>
+        <span class="skill-chip">Pydantic</span>
+        <span class="skill-chip">OAuth 2.0 / JWT</span>
+        <span class="skill-chip">REST APIs</span>
+        <span class="skill-chip">Pytest</span>
+        <span class="skill-chip">Poetry</span>
+        <span class="skill-chip">PySpark</span>
+      </div>
     </div>
 
+    <!-- Cloud & Infra -->
+    <div class="glass p-6">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(168,133,255,0.1);display:flex;align-items:center;justify-content:center;font-size:1.2rem">☁️</div>
+        <div style="font-weight:600;color:var(--purple)">Cloud & Infra</div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem">
+        <span class="skill-chip cloud">AWS Lambda</span>
+        <span class="skill-chip cloud">S3 / SNS / SQS</span>
+        <span class="skill-chip cloud">GCP Cloud Run</span>
+        <span class="skill-chip cloud">Docker</span>
+        <span class="skill-chip cloud">Kubernetes</span>
+        <span class="skill-chip cloud">Terraform</span>
+        <span class="skill-chip cloud">PostgreSQL</span>
+        <span class="skill-chip cloud">DynamoDB</span>
+        <span class="skill-chip cloud">Jenkins CI/CD</span>
+        <span class="skill-chip cloud">Splunk</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- Footer -->
-    <footer class="py-12 text-center">
-        <div class="flex justify-center space-x-6 mb-4">
-            <a href="https://github.com/siva2992krishna" target="_blank" class="text-slate-400 hover:text-teal-300 transition-colors text-2xl"><i class="fab fa-github"></i></a>
-            <a href="https://www.linkedin.com/in/siva-lingutla" target="_blank" class="text-slate-400 hover:text-teal-300 transition-colors text-2xl"><i class="fab fa-linkedin"></i></a>
-            <a href="mailto:lingutlasiva@gmail.com" class="text-slate-400 hover:text-teal-300 transition-colors text-2xl"><i class="fas fa-envelope"></i></a>
+<!-- ── AI Projects ───────────────────────────────────────────────── -->
+<section id="ai-projects" class="py-20 px-8 md:px-24 max-w-6xl mx-auto fade-in">
+  <p class="section-label">// 03. ai_projects</p>
+  <h2 class="section-title">AI / LLM Projects</h2>
+  <div class="section-line"></div>
+
+  <p style="color:var(--slate);margin-bottom:3rem;max-width:600px;line-height:1.7">
+    Production-grade AI systems built with real engineering rigor — documented, testable,
+    and deployable with a single command.
+  </p>
+
+  <div class="grid md:grid-cols-3 gap-6">
+
+    <!-- Project 1: RAG -->
+    <div class="ai-project-card p-6" onclick="window.open('https://github.com/siva2992krishna/rag-document-qa','_blank')">
+      <div class="project-icon" style="background:rgba(100,255,218,0.08)">📚</div>
+
+      <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem">
+        <span class="project-tag tag-rag">RAG</span>
+        <span class="project-tag tag-vector">ChromaDB</span>
+        <span class="project-tag tag-fastapi">FastAPI</span>
+        <span class="project-tag tag-python">Python</span>
+      </div>
+
+      <h3 style="font-size:1.15rem;font-weight:700;color:var(--white);margin-bottom:.6rem">
+        RAG Document Q&A
+      </h3>
+      <p style="color:var(--slate);font-size:.85rem;line-height:1.6;margin-bottom:1.2rem">
+        Upload any document and ask questions. Retrieval pipeline uses ChromaDB vector store
+        with cosine similarity. Streams answers grounded in your content via GPT-4o-mini.
+      </p>
+
+      <div class="arch-diagram" style="font-size:.65rem;margin-bottom:1.2rem">Upload → Chunk → Embed → Store
+Query → Retrieve → Generate → Stream</div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.5rem">
+        <span style="font-size:.7rem;color:var(--slate)">✓ Streaming SSE</span>
+        <span style="font-size:.7rem;color:var(--slate)"> · ✓ Source citations</span>
+        <span style="font-size:.7rem;color:var(--slate)"> · ✓ Docker ready</span>
+      </div>
+
+      <div style="display:flex;gap:.75rem;margin-top:auto">
+        <a href="https://github.com/siva2992krishna/rag-document-qa" target="_blank"
+           onclick="event.stopPropagation()"
+           style="display:flex;align-items:center;gap:.35rem;color:var(--teal);font-size:.8rem;text-decoration:none">
+          <i class="fab fa-github"></i> Code
+        </a>
+        <a href="https://github.com/siva2992krishna/rag-document-qa#-api-reference" target="_blank"
+           onclick="event.stopPropagation()"
+           style="display:flex;align-items:center;gap:.35rem;color:var(--slate-light);font-size:.8rem;text-decoration:none">
+          <i class="fas fa-book"></i> Docs
+        </a>
+      </div>
+    </div>
+
+    <!-- Project 2: LLM Insurance Assistant -->
+    <div class="ai-project-card p-6" onclick="window.open('https://github.com/siva2992krishna/llm-insurance-assistant','_blank')">
+      <div class="project-icon" style="background:rgba(255,171,118,0.08)">🛡️</div>
+
+      <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem">
+        <span class="project-tag tag-llm">LLM</span>
+        <span class="project-tag tag-fastapi">FastAPI</span>
+        <span class="project-tag tag-python">Python</span>
+        <span class="project-tag" style="background:rgba(251,191,36,0.1);color:#fbbf24">Streaming</span>
+      </div>
+
+      <h3 style="font-size:1.15rem;font-weight:700;color:var(--white);margin-bottom:.6rem">
+        LLM Insurance Assistant
+      </h3>
+      <p style="color:var(--slate);font-size:.85rem;line-height:1.6;margin-bottom:1.2rem">
+        Domain-specific conversational AI for insurance. Classifies intents (claim / policy /
+        quote / billing), maintains session memory, and streams responses via SSE. Built-in chat UI.
+      </p>
+
+      <div class="arch-diagram" style="font-size:.65rem;margin-bottom:1.2rem">Message → Intent Classify → Memory
+→ GPT-4o / Claude → Stream SSE</div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.5rem">
+        <span style="font-size:.7rem;color:var(--slate)">✓ Multi-turn memory</span>
+        <span style="font-size:.7rem;color:var(--slate)"> · ✓ Intent routing</span>
+        <span style="font-size:.7rem;color:var(--slate)"> · ✓ Built-in UI</span>
+      </div>
+
+      <div style="display:flex;gap:.75rem;margin-top:auto">
+        <a href="https://github.com/siva2992krishna/llm-insurance-assistant" target="_blank"
+           onclick="event.stopPropagation()"
+           style="display:flex;align-items:center;gap:.35rem;color:var(--orange);font-size:.8rem;text-decoration:none">
+          <i class="fab fa-github"></i> Code
+        </a>
+        <a href="https://github.com/siva2992krishna/llm-insurance-assistant#-api-reference" target="_blank"
+           onclick="event.stopPropagation()"
+           style="display:flex;align-items:center;gap:.35rem;color:var(--slate-light);font-size:.8rem;text-decoration:none">
+          <i class="fas fa-book"></i> Docs
+        </a>
+      </div>
+    </div>
+
+    <!-- Project 3: AI Agent Orchestrator -->
+    <div class="ai-project-card p-6" onclick="window.open('https://github.com/siva2992krishna/ai-agent-orchestrator','_blank')">
+      <div class="project-icon" style="background:rgba(168,133,255,0.08)">🤖</div>
+
+      <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem">
+        <span class="project-tag tag-agent">Agents</span>
+        <span class="project-tag tag-python">ReAct</span>
+        <span class="project-tag tag-fastapi">FastAPI</span>
+        <span class="project-tag" style="background:rgba(168,133,255,0.1);color:var(--purple)">Tool Use</span>
+      </div>
+
+      <h3 style="font-size:1.15rem;font-weight:700;color:var(--white);margin-bottom:.6rem">
+        AI Agent Orchestrator
+      </h3>
+      <p style="color:var(--slate);font-size:.85rem;line-height:1.6;margin-bottom:1.2rem">
+        Multi-agent system implementing the ReAct loop. Agents reason, use tools (web search,
+        Python exec, SQL, risk calculator), observe results, and iterate to a final answer.
+        Full execution trace included.
+      </p>
+
+      <div class="arch-diagram" style="font-size:.65rem;margin-bottom:1.2rem">Think → Act (Tool) → Observe
+→ Repeat → Synthesize Answer</div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.5rem">
+        <span style="font-size:.7rem;color:var(--slate)">✓ 4 tools</span>
+        <span style="font-size:.7rem;color:var(--slate)"> · ✓ Step streaming</span>
+        <span style="font-size:.7rem;color:var(--slate)"> · ✓ Full trace API</span>
+      </div>
+
+      <div style="display:flex;gap:.75rem;margin-top:auto">
+        <a href="https://github.com/siva2992krishna/ai-agent-orchestrator" target="_blank"
+           onclick="event.stopPropagation()"
+           style="display:flex;align-items:center;gap:.35rem;color:var(--purple);font-size:.8rem;text-decoration:none">
+          <i class="fab fa-github"></i> Code
+        </a>
+        <a href="https://github.com/siva2992krishna/ai-agent-orchestrator#-architecture--react-loop" target="_blank"
+           onclick="event.stopPropagation()"
+           style="display:flex;align-items:center;gap:.35rem;color:var(--slate-light);font-size:.8rem;text-decoration:none">
+          <i class="fas fa-book"></i> Docs
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- GitHub CTA -->
+  <div style="text-align:center;margin-top:3rem">
+    <a href="https://github.com/siva2992krishna" target="_blank"
+       style="display:inline-flex;align-items:center;gap:.6rem;color:var(--teal);border:1px solid rgba(100,255,218,0.2);padding:.75rem 2rem;border-radius:8px;text-decoration:none;font-size:.9rem;transition:all 0.2s"
+       onmouseover="this.style.background='rgba(100,255,218,0.05)'"
+       onmouseout="this.style.background='transparent'">
+      <i class="fab fa-github" style="font-size:1.1rem"></i>
+      View all repositories on GitHub
+      <i class="fas fa-arrow-right" style="font-size:.8rem"></i>
+    </a>
+  </div>
+</section>
+
+<!-- ── Experience ────────────────────────────────────────────────── -->
+<section id="experience" class="py-20 px-8 md:px-24 max-w-4xl mx-auto fade-in">
+  <p class="section-label">// 04. experience</p>
+  <h2 class="section-title">Where I've Worked</h2>
+  <div class="section-line"></div>
+
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-date">Jun 2024 – Present</div>
+      <div class="timeline-role">Software Engineer</div>
+      <div class="timeline-company">AAA Insurance · United States</div>
+      <ul class="timeline-bullets">
+        <li>Architected <strong>FastAPI + Async IO</strong> services handling <span class="metric">100K+ concurrent requests</span> across insurance workflows</li>
+        <li>Led migration from Java Spring to Python FastAPI microservices — <span class="metric">40% faster response times</span></li>
+        <li>Implemented OAuth 2.0 / JWT auth across all insurance APIs for policyholder data compliance</li>
+        <li>Optimized PostgreSQL via partitioning and indexing — <span class="metric">60% throughput boost</span></li>
+        <li>Cut mean incident resolution time by <span class="metric">35%</span> via Splunk + Dynatrace observability</li>
+        <li>Deployed CI/CD with Jenkins + Docker — <span class="metric">75% faster releases</span></li>
+        <li>Integrated LLM tooling (GitHub Copilot, Claude AI) into engineering workflows</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">Sep 2020 – Jul 2022</div>
+      <div class="timeline-role">Software Engineer</div>
+      <div class="timeline-company">Cognizant · Direct Line Group (UK Insurance)</div>
+      <ul class="timeline-bullets">
+        <li>Designed event-driven architectures: <strong>AWS Lambda, S3, SNS, SQS, RDS, DynamoDB</strong></li>
+        <li>Built async Flask APIs reducing response times <span class="metric">50% under concurrent load</span></li>
+        <li>Scaled ETL pipelines with PySpark — <span class="metric">40% faster data processing</span></li>
+        <li>Automated CI/CD with Jenkins + Terraform — <span class="metric">50% shorter deployment cycles</span></li>
+        <li>Achieved <span class="metric">85% test coverage</span> with Pytest + SQLAlchemy</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">Aug 2018 – Sep 2020</div>
+      <div class="timeline-role">Associate Software Engineer</div>
+      <div class="timeline-company">Cognizant · Direct Line Group (UK Insurance)</div>
+      <ul class="timeline-bullets">
+        <li>Developed Python Flask backend services for insurance data exchange</li>
+        <li>Built PySpark + Pandas pipelines for automated claims data transformation</li>
+        <li>Designed event-driven workflows with AWS Lambda, SNS, and SQS</li>
+        <li>Optimized PostgreSQL and MongoDB queries for underwriter report generation</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Education ─────────────────────────────────────────────────── -->
+<section id="education" class="py-20 px-8 md:px-24 max-w-4xl mx-auto fade-in">
+  <p class="section-label">// 05. education</p>
+  <h2 class="section-title">Education</h2>
+  <div class="section-line"></div>
+
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="glass p-6">
+      <div style="font-size:2rem;margin-bottom:.75rem">🎓</div>
+      <div style="color:var(--teal);font-family:'Fira Code',monospace;font-size:.8rem;margin-bottom:.4rem">Aug 2022 – May 2024</div>
+      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:.3rem">M.S. Information Technology</h3>
+      <div style="color:var(--orange);font-size:.9rem;margin-bottom:.5rem">Business Data Analytics</div>
+      <div style="color:var(--slate);font-size:.85rem">Central Michigan University, Mt. Pleasant, MI</div>
+      <div style="margin-top:.75rem"><span class="metric">GPA: 3.84 / 4.0</span></div>
+    </div>
+
+    <div class="glass p-6">
+      <div style="font-size:2rem;margin-bottom:.75rem">⚡</div>
+      <div style="color:var(--teal);font-family:'Fira Code',monospace;font-size:.8rem;margin-bottom:.4rem">Aug 2014 – May 2018</div>
+      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:.3rem">B.E. Electrical & Electronics</h3>
+      <div style="color:var(--orange);font-size:.9rem;margin-bottom:.5rem">Engineering</div>
+      <div style="color:var(--slate);font-size:.85rem">Sathyabama University, Chennai, India</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Contact ───────────────────────────────────────────────────── -->
+<section id="contact" class="py-28 px-8 md:px-24 max-w-3xl mx-auto text-center fade-in">
+  <p class="section-label" style="justify-content:center;display:flex">// 06. contact</p>
+  <h2 class="section-title" style="text-align:center">Let's Build Something</h2>
+  <div class="section-line" style="margin:0 auto 2rem"></div>
+
+  <p style="color:var(--slate);line-height:1.8;margin-bottom:2.5rem">
+    I'm actively exploring senior backend / AI engineering roles where I can build high-scale
+    systems and contribute to the LLM application layer. If you have a role that needs a
+    strong Python engineer who actually ships AI in production, let's talk.
+  </p>
+
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+    <a href="mailto:lingutlasiva@gmail.com" class="btn-secondary">
+      <i class="fas fa-envelope" style="margin-right:.5rem"></i>lingutlasiva@gmail.com
+    </a>
+    <a href="https://linkedin.com/in/siva-lingutla" target="_blank" class="btn-primary">
+      <i class="fab fa-linkedin" style="margin-right:.5rem"></i>LinkedIn
+    </a>
+    <a href="https://github.com/siva2992krishna" target="_blank" class="btn-primary">
+      <i class="fab fa-github" style="margin-right:.5rem"></i>GitHub
+    </a>
+  </div>
+</section>
+
+<!-- ── Footer ────────────────────────────────────────────────────── -->
+<footer>
+  <p>
+    Designed & built by <a href="#">Siva Krishna Lingutla</a> ·
+    <a href="https://github.com/siva2992krishna/portfolio" target="_blank">View source</a>
+  </p>
+  <p style="margin-top:.5rem;font-size:.75rem">Michigan, USA · lingutlasiva@gmail.com</p>
+</footer>
+
+<!-- ── AI Chat Widget ─────────────────────────────────────────────── -->
+<div id="chat-widget">
+  <div id="chat-modal">
+    <div id="chat-header">
+      <div style="display:flex;align-items:center;gap:.6rem">
+        <div style="width:30px;height:30px;border-radius:50%;background:rgba(100,255,218,0.15);display:flex;align-items:center;justify-content:center;font-size:.9rem">🤖</div>
+        <div>
+          <div style="font-size:.85rem;font-weight:600;color:var(--white)">Siva's AI Assistant</div>
+          <div style="font-size:.7rem;color:var(--teal)">● Online</div>
         </div>
-        <p class="text-slate-500 text-sm">Designed & Built by Siva Krishna L</p>
-        <p class="text-slate-600 text-xs mt-1">Last Updated: July 2025</p>
-    </footer>
+      </div>
+      <button onclick="toggleChat()" style="background:none;border:none;color:var(--slate);cursor:pointer;font-size:1.1rem">✕</button>
+    </div>
+    <div id="chat-messages">
+      <div class="chat-msg bot">
+        Hi! 👋 I'm Siva's portfolio assistant. Ask me about his AI projects, experience, or skills!
+      </div>
+    </div>
+    <div id="chat-input-row">
+      <input id="chat-input" placeholder="Ask about RAG, agents, experience..." onkeydown="if(event.key==='Enter')sendChat()">
+      <button id="chat-send" onclick="sendChat()">→</button>
+    </div>
+  </div>
+  <div id="chat-bubble" onclick="toggleChat()">🤖</div>
+</div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // --- Three.js Hero Background ---
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('hero-canvas'), alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
+<!-- ── Scripts ────────────────────────────────────────────────────── -->
+<script>
+// ── Three.js particle field ─────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('hero-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(window.innerWidth, window.innerHeight);
 
-        const particlesGeometry = new THREE.BufferGeometry;
-        const particlesCnt = 5000;
-        const posArray = new Float32Array(particlesCnt * 3);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 300;
 
-        for(let i = 0; i < particlesCnt * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 5;
-        }
+  // Particles
+  const geo = new THREE.BufferGeometry();
+  const COUNT = 2000;
+  const positions = new Float32Array(COUNT * 3);
+  const colors = new Float32Array(COUNT * 3);
+  const palette = [
+    [0.39, 1, 0.85],   // teal
+    [1, 0.67, 0.46],   // orange
+    [0.66, 0.52, 1],   // purple
+  ];
+  for (let i = 0; i < COUNT; i++) {
+    positions[i*3]   = (Math.random() - 0.5) * 900;
+    positions[i*3+1] = (Math.random() - 0.5) * 600;
+    positions[i*3+2] = (Math.random() - 0.5) * 400;
+    const c = palette[Math.floor(Math.random() * palette.length)];
+    colors[i*3] = c[0]; colors[i*3+1] = c[1]; colors[i*3+2] = c[2];
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+  const mat = new THREE.PointsMaterial({ size: 1.5, vertexColors: true, transparent: true, opacity: 0.7 });
+  const particles = new THREE.Points(geo, mat);
+  scene.add(particles);
 
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.005,
-            color: 0x64ffda
-        });
+  let mouseX = 0, mouseY = 0;
+  document.addEventListener('mousemove', e => {
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
 
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
-        camera.position.z = 2;
+  let frame = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    frame += 0.002;
+    particles.rotation.y = frame * 0.3 + mouseX * 0.1;
+    particles.rotation.x = frame * 0.1 + mouseY * 0.05;
+    renderer.render(scene, camera);
+  }
+  animate();
 
-        let mouseX = 0;
-        let mouseY = 0;
-        document.addEventListener('mousemove', (event) => {
-            mouseX = event.clientX;
-            mouseY = event.clientY;
-        });
+  window.addEventListener('resize', () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+  });
+})();
 
-        const clock = new THREE.Clock();
-        const animate = () => {
-            const elapsedTime = clock.getElapsedTime();
-            particlesMesh.rotation.y = -0.1 * elapsedTime;
-            if (mouseX > 0) {
-                particlesMesh.rotation.x = -mouseY * (elapsedTime * 0.00008);
-                particlesMesh.rotation.y = -mouseX * (elapsedTime * 0.00008);
-            }
-            renderer.render(scene, camera);
-            window.requestAnimationFrame(animate);
-        };
-        animate();
+// ── Navbar scroll ───────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+});
 
-        window.addEventListener('resize', () => {
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-        });
+// ── Intersection observer for fade-in ──────────────────────────────
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
+// ── Chat widget ─────────────────────────────────────────────────────
+let chatOpen = false;
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chat-modal').classList.toggle('open', chatOpen);
+  if (chatOpen) setTimeout(() => document.getElementById('chat-input').focus(), 300);
+}
 
-        // --- Simple scroll animations ---
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-fade-in-up');
-                }
-            });
-        }, { threshold: 0.1 });
+const KB = {
+  rag: "The **RAG Document Q&A** project uses ChromaDB as a vector store with cosine similarity search. Upload any text document, and it chunks it with 50-word overlap, embeds with OpenAI (or mock), and streams answers grounded in your content. GitHub: github.com/siva2992krishna/rag-document-qa",
+  agent: "The **AI Agent Orchestrator** implements the ReAct (Reason + Act) loop. Agents think about what tool to use, call it (web search, Python exec, SQL, or risk calculator), observe the result, and iterate. Full step-by-step trace available via SSE. GitHub: github.com/siva2992krishna/ai-agent-orchestrator",
+  llm: "The **LLM Insurance Assistant** is a domain-tuned conversational AI. It classifies intent (claim/policy/quote/billing), maintains per-session memory for up to 20 turns, and supports OpenAI GPT-4o-mini or Anthropic Claude with a mock fallback. GitHub: github.com/siva2992krishna/llm-insurance-assistant",
+  experience: "Siva has 6+ years of experience: currently a Software Engineer at AAA Insurance (Jun 2024–present) building FastAPI services handling 100K+ concurrent requests. Before that, he built event-driven AWS systems at Cognizant for Direct Line Group (UK's largest insurer) from 2018–2022.",
+  skills: "Siva's core stack: Python (FastAPI, Flask, Async IO), LangChain, OpenAI API, ChromaDB, AWS (Lambda, S3, SNS, SQS), GCP (Cloud Run), Docker, Kubernetes, PostgreSQL, and Pytest. AI focus: RAG pipelines, LLM agents, embeddings, and prompt engineering.",
+  contact: "You can reach Siva at **lingutlasiva@gmail.com** or connect on **LinkedIn** at linkedin.com/in/siva-lingutla. He's currently open to senior backend / AI engineering roles.",
+  education: "Siva holds an M.S. in Information Technology (Business Data Analytics) from Central Michigan University (GPA 3.84, 2022–2024) and a B.E. in Electrical & Electronics from Sathyabama University, India.",
+};
 
-        document.querySelectorAll('section > *:not(.hero-element)').forEach(el => {
-            el.classList.add('opacity-0');
-            observer.observe(el);
-        });
+function sendChat() {
+  const inp = document.getElementById('chat-input');
+  const q = inp.value.trim();
+  if (!q) return;
+  inp.value = '';
 
-        const style = document.createElement('style');
-        style.innerHTML = `
-            @keyframes fade-in-up {
-                from { opacity: 0; transform: translateY(20px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-            .animate-fade-in-up { animation: fade-in-up 0.8s ease-out forwards; }
-        `;
-        document.head.appendChild(style);
+  const msgs = document.getElementById('chat-messages');
+  const userDiv = document.createElement('div');
+  userDiv.className = 'chat-msg user';
+  userDiv.textContent = q;
+  msgs.appendChild(userDiv);
 
-        // --- Gemini API Integration ---
-        const apiKey = ""; // This will be handled by the environment
+  const ql = q.toLowerCase();
+  let answer = "Great question! Siva is a senior Python and AI engineer. Ask me about his RAG project, AI agents, LLM work, experience, skills, education, or how to contact him.";
 
-        // --- AI Chatbot Logic ---
-        const chatBubble = document.getElementById('chat-bubble');
-        const chatModal = document.getElementById('chat-modal');
-        const closeChatBtn = document.getElementById('close-chat');
-        const chatBody = document.getElementById('chat-body');
-        const chatInput = document.getElementById('chat-input');
-        const sendChatBtn = document.getElementById('send-chat-btn');
-        const chatInputContainer = document.getElementById('chat-input-container');
+  if (ql.includes('rag') || ql.includes('document') || ql.includes('vector') || ql.includes('chroma')) answer = KB.rag;
+  else if (ql.includes('agent') || ql.includes('react') || ql.includes('tool')) answer = KB.agent;
+  else if (ql.includes('llm') || ql.includes('insurance') || ql.includes('chat') || ql.includes('assistant')) answer = KB.llm;
+  else if (ql.includes('experience') || ql.includes('work') || ql.includes('job') || ql.includes('aaa') || ql.includes('cognizant')) answer = KB.experience;
+  else if (ql.includes('skill') || ql.includes('tech') || ql.includes('python') || ql.includes('fastapi') || ql.includes('aws')) answer = KB.skills;
+  else if (ql.includes('contact') || ql.includes('email') || ql.includes('hire') || ql.includes('reach')) answer = KB.contact;
+  else if (ql.includes('education') || ql.includes('degree') || ql.includes('university') || ql.includes('gpa')) answer = KB.education;
 
-        let chatHistory = [];
-        let conversationState = 'greeting'; // greeting, asking_name, asking_company, asking_email, asking_timings, idle
-        let recruiterInfo = { name: '', company: '', email: '', timings: ''};
+  setTimeout(() => {
+    const botDiv = document.createElement('div');
+    botDiv.className = 'chat-msg bot';
+    botDiv.innerHTML = answer.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--teal)">$1</strong>');
+    msgs.appendChild(botDiv);
+    botDiv.scrollIntoView({ behavior: 'smooth' });
+  }, 400);
 
-        function startConversation() {
-            chatBody.innerHTML = ''; // Clear chat
-            addMessageToChat('ai', "Hello! I'm Siva's AI assistant. Before we begin, could I get your name?");
-            conversationState = 'asking_name';
-            chatInputContainer.style.display = 'flex';
-            chatInput.focus();
-        }
+  userDiv.scrollIntoView({ behavior: 'smooth' });
+}
 
-        // Function to get resume context
-        const getResumeContext = () => {
-            return `
-                Resume of Siva Krishna L, Senior Python Developer.
-                Summary: 5+ years experience in backend systems, APIs, cloud-native tech (GCP, AWS), containerization.
-                Core Competencies: Backend Architecture, Cloud & DevOps, API Development, Data Engineering.
-                Experience 1: Senior Python Developer at AAA - AutoClubGroup (June 2024 - Present). Migrating Java APIs to Python/FastAPI on GCP.
-                Experience 2: Python Developer at Cognizant for Directline Group (Aug 2020 - Jul 2022). Enhanced policy management on AWS.
-                Experience 3: Junior to Mid-Level Python Developer at Cognizant for Directline Group (Aug 2018 - Jul 2020). Developed internal tools, integrated with Guidewire.
-                Case Study 1 (AAA): Solved legacy API bottlenecks by migrating to a Python/FastAPI microservices architecture on GCP. Impact: 40% faster API response, 150% more throughput, 60% faster deployment.
-                Case Study 2 (Directline): Addressed manual data entry issues by building a Celery/Redis data sync service to connect Python apps with Guidewire. Impact: Saved 25+ hours/week, improved data consistency by 40%.
-                Education: Master of Science in Information Systems from Central Michigan University (Graduated May 2024).
-                Certifications: AWS Certified Developer – Associate (Issued July 2025).
-                Skills: Python, Django, FastAPI, Pydantic, Pytest, PostgreSQL, Redis, GCP, AWS, Docker, Kubernetes, Terraform, Git, Bitbucket, GitHub, CI/CD.
-                Contact: lingutlasiva@gmail.com, (989) 824-0655, linkedin.com/in/siva-lingutla
-            `;
-        };
+// ── Typed effect for hero sub ───────────────────────────────────────
+(function() {
+  const el = document.querySelector('.hero-sub');
+  const texts = [
+    'Senior Python Engineer · AI / LLM Builder',
+    'RAG Pipeline Architect',
+    'Multi-Agent System Designer',
+    'FastAPI · AWS · GCP · Async IO',
+  ];
+  let i = 0, j = 0, deleting = false;
+  function type() {
+    const current = texts[i];
+    if (!deleting) {
+      el.textContent = current.slice(0, j++);
+      if (j > current.length) { deleting = true; setTimeout(type, 2000); return; }
+    } else {
+      el.textContent = current.slice(0, j--);
+      if (j < 0) { deleting = false; i = (i + 1) % texts.length; j = 0; }
+    }
+    setTimeout(type, deleting ? 40 : 70);
+  }
+  setTimeout(type, 1500);
+})();
+</script>
 
-        chatBubble.addEventListener('click', () => {
-            chatModal.classList.toggle('hidden');
-            if (!chatModal.classList.contains('hidden') && conversationState === 'greeting') {
-                startConversation();
-            }
-        });
-        closeChatBtn.addEventListener('click', () => chatModal.classList.add('hidden'));
-        sendChatBtn.addEventListener('click', handleUserInput);
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleUserInput();
-        });
-
-        async function handleUserInput() {
-            const userMessage = chatInput.value.trim();
-            if (!userMessage) return;
-
-            addMessageToChat('user', userMessage);
-            chatInput.value = '';
-
-            if (conversationState === 'asking_name') {
-                recruiterInfo.name = userMessage;
-                addMessageToChat('ai', `Great to meet you, ${recruiterInfo.name}! Which company are you with?`);
-                conversationState = 'asking_company';
-            } else if (conversationState === 'asking_company') {
-                recruiterInfo.company = userMessage;
-                addMessageToChat('ai', `And what's the best email to reach you at?`);
-                conversationState = 'asking_email';
-            } else if (conversationState === 'asking_email') {
-                recruiterInfo.email = userMessage;
-                addMessageToChat('ai', `Thanks. Lastly, what are your preferred timings for a call? (e.g., "Weekdays after 3 PM EST")`);
-                conversationState = 'asking_timings';
-            } else if (conversationState === 'asking_timings') {
-                recruiterInfo.timings = userMessage;
-                addMessageToChat('ai', `Thank you! To ensure Siva receives your details, please click the button below. It will open your email client with your contact information pre-filled, ready to send to him.`);
-                sendNotificationEmail();
-                conversationState = 'idle';
-            }
-            else {
-                showTypingIndicator();
-                const intent = determineIntentLocally(userMessage);
-
-                if (intent === 'schedule_meeting') {
-                    removeTypingIndicator();
-                    addMessageToChat('ai', "Great! The best way to schedule a meeting is to email Siva directly. His email is: lingutlasiva@gmail.com");
-                    addMessageToChat('ai', "Is there anything else I can help you with?");
-
-                } else if (intent === 'share_contact') {
-                    removeTypingIndicator();
-                    addMessageToChat('ai', "Siva's contact information is:\nEmail: lingutlasiva@gmail.com\nPhone: (989) 824-0655\nLinkedIn: linkedin.com/in/siva-lingutla");
-                }
-                else {
-                    const prompt = `You are an AI assistant for Siva Krishna L's resume. Your personality is professional and concise. Answer the user's question based *only* on the provided context. If the answer isn't in the context, say "I don't have that specific information, but you can reach out to Siva for more details."\n\nContext:\n${getResumeContext()}\n\nUser Question: ${userMessage}`;
-                    try {
-                        const aiResponse = await callGemini(prompt, chatHistory);
-                        chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
-                        chatHistory.push({ role: "model", parts: [{ text: aiResponse }] });
-                        removeTypingIndicator();
-                        addMessageToChat('ai', aiResponse);
-                    } catch (error) {
-                        console.error("Chatbot error:", error);
-                        removeTypingIndicator();
-                        addMessageToChat('ai', "Sorry, I'm having trouble connecting. Please try again.");
-                    }
-                }
-            }
-        }
-
-        function sendNotificationEmail() {
-            const subject = encodeURIComponent(`Contact Details from ${recruiterInfo.name} at ${recruiterInfo.company}`);
-            const body = encodeURIComponent(`Hi Siva,\n\nHere are my contact details:\n\nName: ${recruiterInfo.name}\nCompany: ${recruiterInfo.company}\nEmail: ${recruiterInfo.email}\nPreferred Timings: ${recruiterInfo.timings}\n\n(This email was generated by your interactive resume assistant.)`);
-            const mailtoLink = `mailto:lingutlasiva@gmail.com?subject=${subject}&body=${body}`;
-
-            const notificationDiv = document.createElement('div');
-            notificationDiv.innerHTML = `<a href="${mailtoLink}" target="_blank" class="inline-block mt-2 bg-teal-400 text-slate-900 font-bold px-4 py-2 rounded-md hover:bg-teal-300 transition-colors">Send My Details to Siva</a>`;
-            chatBody.appendChild(notificationDiv);
-            chatBody.scrollTop = chatBody.scrollHeight;
-            
-            setTimeout(() => {
-                addMessageToChat('ai', "Now, what can I help you with? Feel free to ask about Siva's skills, experience, or projects.");
-            }, 1000);
-        }
-
-        function determineIntentLocally(message) {
-            const lowerCaseMessage = message.toLowerCase();
-            const scheduleKeywords = ['schedule', 'meeting', 'appointment', 'talk', 'call', 'interview'];
-            const contactKeywords = ['contact', 'email', 'phone', 'linkedin'];
-
-            if (scheduleKeywords.some(keyword => lowerCaseMessage.includes(keyword))) {
-                return 'schedule_meeting';
-            }
-            if (contactKeywords.some(keyword => lowerCaseMessage.includes(keyword))) {
-                return 'share_contact';
-            }
-            return 'general_question';
-        }
-
-        function addMessageToChat(sender, message) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('chat-message', 'p-3', 'rounded-lg', 'text-sm', 'leading-relaxed', sender === 'user' ? 'user-message' : 'ai-message');
-            messageDiv.innerText = message;
-            chatBody.appendChild(messageDiv);
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }
-        
-        function showTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.id = 'typing-indicator';
-            typingDiv.classList.add('chat-message', 'ai-message', 'p-3', 'rounded-lg');
-            typingDiv.innerHTML = '<div class="loader"></div>';
-            chatBody.appendChild(typingDiv);
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }
-
-        function removeTypingIndicator() {
-            const indicator = document.getElementById('typing-indicator');
-            if (indicator) indicator.remove();
-        }
-
-
-        // --- Generic Gemini API Caller ---
-        async function callGemini(prompt, history = []) {
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-            
-            let contents = [...history];
-            contents.push({ role: "user", parts: [{ text: prompt }] });
-
-            const payload = { contents };
-
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) {
-                throw new Error(`API call failed with status: ${response.status}`);
-            }
-
-            const result = await response.json();
-            
-            if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts.length > 0) {
-                return result.candidates[0].content.parts[0].text;
-            } else {
-                 console.warn("Gemini API response was empty or malformed.", result);
-                 if (result.candidates && result.candidates[0]?.finishReason === 'SAFETY') {
-                     return "The response was blocked due to safety settings. Please rephrase your request.";
-                 }
-                return "I couldn't generate a response. Please try again.";
-            }
-        }
-    });
-    </script>
 </body>
 </html>
